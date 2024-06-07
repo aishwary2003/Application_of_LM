@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP Comparison Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            resize: vertical;
+        }
+        button {
+            width: 150px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            align-self: center;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .result-container {
+            margin-top: 20px;
+        }
+        .decision {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e2e3e5;
+            border-left: 5px solid #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NLP Comparison Tool</h1>
+        <form action="/compare" method="post">
+            <div>
+                <label for="paragraph1">Paragraph 1:</label>
+                <textarea id="paragraph1" name="paragraph1" rows="10" cols="50">{{ request.form.paragraph1 if request.form.paragraph1 else '' }}</textarea>
+            </div>
+            <div>
+                <label for="paragraph2">Paragraph 2:</label>
+                <textarea id="paragraph2" name="paragraph2" rows="10" cols="50">{{ request.form.paragraph2 if request.form.paragraph2 else '' }}</textarea>
+            </div>
+            <div>
+                <button type="submit">Compare</button>
+            </div>
+        </form>
+        {% if result %}
+            <div class="result-container">
+                <h2>Result:</h2>
+                <table border="1">
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Text 1</th>
+                        <th>Text 2</th>
+                        <th>Output</th>
+                    </tr>
+                    {% for row in result %}
+                        <tr>
+                            {% for cell in row %}
+                                <td>{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="decision">
+                <h3>{{ decision }}</h3>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
